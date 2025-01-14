@@ -13,12 +13,12 @@ class ProgramadoresListarTodosProgramadoresListView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     
-    queryset = Programador
+    model = Programador
     serializer_class = ProgramadorSerializer
 
     @property
     def programadores(self):
-        return self.queryset.objects.all()
+        return self.model.objects.all()
 
     def get(self, *args, **kwargs):
         programadores_serializer = self.serializer_class(self.programadores, many=True)
@@ -29,13 +29,13 @@ class ProgramadoresCriarProgramadorView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     
-    queryset = Programador
+    model = Programador
     serializer_class = ProgramadorSerializer
     business = ProgramadoresBusiness
 
     @property
     def programador(self):
-        return self.queryset
+        return self.model
 
     def post(self, *args, **kwargs):
         programador = self.business.criar_programador(**self.request.data)
@@ -47,15 +47,15 @@ class ProgramadoresFiltrarPorIDView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     
-    queyset = Programador
+    model = Programador
     serializer_class = ProgramadorSerializer
 
     @property
     def programador(self):
         try:
-            return self.queryset.objects.get(id=self.kwargs.get('programador_id'))
+            return self.model.objects.get(id=self.kwargs.get('programador_id'))
 
-        except self.queyset.DoesNotExist:
+        except self.model.DoesNotExist:
             return None
 
     def get(self, *args, **kwargs):

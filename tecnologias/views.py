@@ -12,11 +12,11 @@ class TecnologiasListarTecnologiasListView(APIView):
     permission_classes = [IsAuthenticated]
 
     serializer_class = TecnologiaSerializer
-    queryset = Tecnologia
-    
+    model = Tecnologia
+
     @property
-    def tecnologias(self): 
-        return self.queryset.objects.all() 
+    def tecnologias(self):
+        return self.model.objects.all()
 
     def get(self, *args, **kwargs):
         tecnologias_serializer = self.serializer_class(self.tecnologias, many=True)
@@ -28,14 +28,14 @@ class TecnologiasBuscarPorIDView(APIView):
     permission_classes = [IsAuthenticated]
 
     serializer_class = TecnologiaSerializer
-    queryset = Tecnologia
+    model = Tecnologia
 
     @property
     def tecnologia(self):
         try:
-            return self.queryset.objects.get(id=self.kwargs.get('tecnologia_id'))
+            return self.model.objects.get(id=self.kwargs.get('tecnologia_id'))
 
-        except self.queryset.DoesNotExist:
+        except self.model.DoesNotExist:
             return None
 
     def get(self, *args, **kwargs):

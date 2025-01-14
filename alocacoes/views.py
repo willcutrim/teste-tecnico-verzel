@@ -12,11 +12,14 @@ class AlocacoesAllListView(APIView):
     permission_classes = [IsAuthenticated]
     
     serializer_class = AlocacaoSerializer
-    queryset = Alocacao.objects.all()
+    model = Alocacao
     
+    @property
+    def alocacoes(self):
+        return self.model
 
     def get(self, *args, **kwargs):
-        alocacores_serializer = self.serializer_class(self.queryset, many=True)
+        alocacores_serializer = self.serializer_class(self.alocacoes, many=True)
         return Response(alocacores_serializer.data)
 
 
