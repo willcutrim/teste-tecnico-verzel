@@ -1,11 +1,16 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .business import TecnologiasBusiness
 from .models import Tecnologia
 from .serializers import TecnologiaSerializer
 
 
 class TecnologiasListarTecnologiasListView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     serializer_class = TecnologiaSerializer
     queryset = Tecnologia
     
@@ -19,6 +24,9 @@ class TecnologiasListarTecnologiasListView(APIView):
 
 
 class TecnologiasBuscarPorIDView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     serializer_class = TecnologiaSerializer
     queryset = Tecnologia
 
@@ -39,6 +47,9 @@ class TecnologiasBuscarPorIDView(APIView):
 
 
 class TecnologiasCriarTecnologiaCreateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     serializer_class = TecnologiaSerializer
     business = TecnologiasBusiness()
 
@@ -49,6 +60,9 @@ class TecnologiasCriarTecnologiaCreateView(APIView):
 
 
 class TecnologiasAtualizarTecnologiaUpdateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     serializer_class = TecnologiaSerializer
     business = TecnologiasBusiness()
 
@@ -59,6 +73,9 @@ class TecnologiasAtualizarTecnologiaUpdateView(APIView):
 
 
 class TecnologiasDeletarTecnologiaDeleteView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     business = TecnologiasBusiness()
 
     def delete(self, *args, **kwargs):
