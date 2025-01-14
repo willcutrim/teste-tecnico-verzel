@@ -9,4 +9,9 @@ urlpatterns = [
         views.TecnologiasDeletarTecnologiaDeleteView.as_view(), 
         name='deletar-tecnologia'
     ),
+    path(
+        'por_filtro/<int:tecnologia_id>/', 
+        views.TecnologiasBuscarPorIDView.as_view(), 
+        name='por-filtro'
+    ),
 ]

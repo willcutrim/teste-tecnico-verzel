@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .business import TecnologiasBusiness
 from .models import Tecnologia
 from .serializers import TecnologiaSerializer
-from bases.mixins import FilterByFieldsMixin
 
 
 class TecnologiasListarTecnologiasListView(APIView):
@@ -20,18 +18,23 @@ class TecnologiasListarTecnologiasListView(APIView):
         return Response(tecnologias_serializer.data)
 
 
-class TecnologiasPorFiltroView(FilterByFieldsMixin, APIView):
+class TecnologiasBuscarPorIDView(APIView):
     serializer_class = TecnologiaSerializer
     queryset = Tecnologia
-    filter_fields = ['id', 'nome']
 
     @property
-    def tecnologias(self): 
-        return self.queryset 
+    def tecnologia(self):
+        try:
+            return self.queryset.objects.get(id=self.kwargs.get('tecnologia_id'))
+
+        except self.queryset.DoesNotExist:
+            return None
 
     def get(self, *args, **kwargs):
-        tecnologia = self.tecnologias.objects.filter(projeto=kwargs['projeto_id'])
-        tecnologia_serializer = self.serializer_class(tecnologia, many=True)
+        if not self.tecnologia:
+            return Response({'message': 'Tecnologia não encontrada'}, status=404)
+
+        tecnologia_serializer = self.serializer_class(self.tecnologia)
         return Response(tecnologia_serializer.data)
 
 
@@ -49,5 +52,8 @@ class TecnologiasDeletarTecnologiaDeleteView(APIView):
     business = TecnologiasBusiness()
 
     def delete(self, *args, **kwargs):
-        self.business.deletar_tecnologia(tecnologia_id=kwargs['tecnologia_id'])
+        programador = self.business.deletar_tecnologia(**kwargs)
+        if not programador:
+            return Response({'message': 'Tecnologia nao encontrada'}, status=404)
+        
         return Response({'message': 'Tecnologia deletada com sucesso'})

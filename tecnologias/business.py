@@ -8,9 +8,28 @@ class TecnologiasBusiness:
         return self.model_object
 
     def criar_tecnologia(self, **kwargs):
-        tecnologia = self.tecnologias.objects.create(nome=kwargs.get('nome'))
-        return tecnologia
+        try:
+            tecnologia = self.tecnologias.objects.create(nome=kwargs.get('nome'))
+            return tecnologia
 
-    def deletar_tecnologia(self, tecnologia_id):
-        tecnologia = self.tecnologias.objects.get(id=tecnologia_id)
-        tecnologia.delete()
+        except Exception as err:
+            raise Exception('Erro ao criar tecnologia')
+
+    def deletar_tecnologia(self, **kwargs):
+        def _get_tecnologia(**kwargs):
+            try:
+                tecnologia = self.tecnologias.objects.get(id=kwargs.get('tecnologia_id'))
+                return tecnologia
+            
+            except self.tecnologias.DoesNotExist:
+                return None
+
+        try:
+            tecnologia = _get_tecnologia(**kwargs)
+            if not tecnologia:
+                return None
+
+            tecnologia.delete()
+
+        except Exception as err:
+            raise Exception('Erro ao deletar tecnologia')
