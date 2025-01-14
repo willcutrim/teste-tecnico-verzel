@@ -1,5 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from programadores.business import ProgramadoresBusiness
 from programadores.serializers import ProgramadorSerializer
@@ -8,6 +10,9 @@ from .models import Programador
 
 
 class ProgramadoresListarTodosProgramadoresListView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     queryset = Programador
     serializer_class = ProgramadorSerializer
 
@@ -21,6 +26,9 @@ class ProgramadoresListarTodosProgramadoresListView(APIView):
 
 
 class ProgramadoresCriarProgramadorView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     queryset = Programador
     serializer_class = ProgramadorSerializer
     business = ProgramadoresBusiness
@@ -36,6 +44,9 @@ class ProgramadoresCriarProgramadorView(APIView):
 
 
 class ProgramadoresFiltrarPorIDView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     queyset = Programador
     serializer_class = ProgramadorSerializer
 
@@ -53,6 +64,9 @@ class ProgramadoresFiltrarPorIDView(APIView):
 
 
 class ProgramadoresDeletarProgramadorDeleteView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     business = ProgramadoresBusiness()
 
     def delete(self, *args, **kwargs):

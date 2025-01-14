@@ -1,12 +1,16 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .business import AlocacoesBusiness
 from .models import Alocacao
 from .serializers import AlocacaoSerializer
 
 
 class AlocacoesAllListView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     serializer_class = AlocacaoSerializer
     queryset = Alocacao
     
@@ -21,6 +25,9 @@ class AlocacoesAllListView(APIView):
 
 
 class AlocacoesPorProjetoView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     queryset = Alocacao
 
     @property
@@ -35,6 +42,9 @@ class AlocacoesPorProjetoView(APIView):
 
 
 class AlocacoesCriarAlocaaoCreateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     serializer_class = AlocacaoSerializer
     queryset = Alocacao
     business = AlocacoesBusiness
@@ -48,6 +58,9 @@ class AlocacoesCriarAlocaaoCreateView(APIView):
         
 
 class AlocacoesDeletarAlocaaoDeleteView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     business = AlocacoesBusiness
 
     def delete(self, *args, **kwargs):
