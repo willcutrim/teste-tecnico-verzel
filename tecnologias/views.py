@@ -48,6 +48,16 @@ class TecnologiasCriarTecnologiaCreateView(APIView):
         return Response(tecnologia_serializer.data)
 
 
+class TecnologiasAtualizarTecnologiaUpdateView(APIView):
+    serializer_class = TecnologiaSerializer
+    business = TecnologiasBusiness()
+
+    def put(self, *args, **kwargs):
+        tecnologia = self.business.atualizar_tecnologia(**self.request.data, **kwargs)
+        tecnologia_serializer = self.serializer_class(tecnologia)
+        return Response(tecnologia_serializer.data)
+
+
 class TecnologiasDeletarTecnologiaDeleteView(APIView):
     business = TecnologiasBusiness()
 

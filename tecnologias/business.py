@@ -15,6 +15,28 @@ class TecnologiasBusiness:
         except Exception as err:
             raise Exception('Erro ao criar tecnologia')
 
+    def atualizar_tecnologia(self, **kwargs):
+        def _get_tecnologia(id_tecnologia):
+            try:
+                tecnologia = self.tecnologias.objects.get(id=id_tecnologia)
+                return tecnologia
+            
+            except self.tecnologias.DoesNotExist:
+                return None
+
+        try:
+            tecnologia = _get_tecnologia(kwargs.get('tecnologia_id'))
+            if not tecnologia:
+                return None
+
+            tecnologia.nome = kwargs.get('nome')
+            tecnologia.save()
+
+            return tecnologia
+
+        except Exception as err:
+            raise Exception('Erro ao atualizar tecnologia')
+
     def deletar_tecnologia(self, **kwargs):
         def _get_tecnologia(**kwargs):
             try:
