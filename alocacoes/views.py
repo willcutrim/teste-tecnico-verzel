@@ -12,27 +12,23 @@ class AlocacoesAllListView(APIView):
     permission_classes = [IsAuthenticated]
     
     serializer_class = AlocacaoSerializer
-    queryset = Alocacao
+    queryset = Alocacao.objects.all()
     
-    @property
-    def alocacoes(self): 
-        return self.queryset.objects.all() 
 
     def get(self, *args, **kwargs):
-        alocacores_serializer = self.serializer_class(self.alocacoes, many=True)
-
+        alocacores_serializer = self.serializer_class(self.queryset, many=True)
         return Response(alocacores_serializer.data)
 
 
 class AlocacoesPorProjetoView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    
-    queryset = Alocacao
+
+    model = Alocacao
 
     @property
     def alocacoes(self): 
-        return self.queryset 
+        return self.model 
 
     def get(self, *args, **kwargs):
         alocacao = self.alocacoes.objects.filter(projeto=kwargs['projeto_id'])
@@ -46,7 +42,6 @@ class AlocacoesCriarAlocaaoCreateView(APIView):
     permission_classes = [IsAuthenticated]
     
     serializer_class = AlocacaoSerializer
-    queryset = Alocacao
     business = AlocacoesBusiness
 
     def post(self, *args, **kwargs):
