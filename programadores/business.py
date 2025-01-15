@@ -33,3 +33,25 @@ class ProgramadoresBusiness:
 
         except Exception as err:
             raise Exception('Erro ao deletar programador')
+
+    def atualizar_programador(self, **kwargs):
+        def _get_programador(**kwargs):
+            try:
+                programador = self.programadores.objects.get(id=kwargs.get('programador_id'))
+                return programador
+            
+            except self.programadores.DoesNotExist:
+                return None
+        
+        try:
+            programador = _get_programador(**kwargs)
+            if not programador:
+                return None
+
+            programador.nome = kwargs.get('nome')
+            programador.save()
+
+            return programador
+
+        except Exception as err:
+            raise Exception('Erro ao atualizar programador')

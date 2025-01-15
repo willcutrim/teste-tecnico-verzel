@@ -75,3 +75,15 @@ class ProgramadoresDeletarProgramadorDeleteView(APIView):
             return Response({'message': 'Programador nao encontrado'}, status=404)
 
         return Response({'message': 'Programador deletado com sucesso'})
+
+
+class ProgramadoresAtualizarProgramadorUpdateView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    business = ProgramadoresBusiness()
+
+    def put(self, *args, **kwargs):
+        programador = self.business.atualizar_programador(**self.request.data, **kwargs)
+        programador_serializer = ProgramadorSerializer(programador)
+        return Response(programador_serializer.data)

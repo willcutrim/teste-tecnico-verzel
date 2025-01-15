@@ -11,5 +11,10 @@ urlpatterns = [
         name='deletar-programador'
     ),
     path('filtrar/<int:programador_id>/', views.ProgramadoresFiltrarPorIDView.as_view(), name='filtrar'),
+    path(
+        'atualizar_programador/<int:programador_id>/', 
+        views.ProgramadoresAtualizarProgramadorUpdateView.as_view(), 
+        name='atualizar-programador'
+    ),
 
 ]
