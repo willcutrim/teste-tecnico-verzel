@@ -1,6 +1,10 @@
-FROM python:3.9-slim
+FROM python:3.8-slim
 
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    libpq-dev gcc --no-install-recommends && \
+    apt-get clean
 
 COPY requirements.txt .
 
